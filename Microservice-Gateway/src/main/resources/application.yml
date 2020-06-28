@@ -1,0 +1,29 @@
+spring:
+  application:    name: MS-Gateway
+server:  port: 8090
+eureka:
+  instance:
+    intance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url.defaultZone: http://localhost:8761/eureka
+    #service-url.defaultZone: http://192.168.99.100:8761/eureka
+    
+    
+zuul:
+  #ignoredHeaders: authorization
+  routes:
+    users:
+      service-id: MS-Usuarios
+      path: /api/users/** 
+    security:
+      service-id: MS-Oauth
+      path: /api/security/**
+      sensitiveHeaders: Cookie,Set-Cookie
+           
+MS-Usuarios:
+  ribbon:
+    ReadTimeout: 500000
+MS-Oauth:
+  ribbon:
+    ReadTimeout: 500000
+    
