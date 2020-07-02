@@ -25,11 +25,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		http.cors()
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET,"/api/users/users/find/all").hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST,"/api/security/oauth/token").permitAll()
-		.antMatchers(HttpMethod.GET,"/api/users/users/find/usr/{email}").permitAll()
-		.antMatchers(HttpMethod.DELETE,"/api/users/users/delete/usr/{email}").permitAll()
-		.antMatchers(HttpMethod.POST,"/api/users/users/save/usr").permitAll()
+		.antMatchers(HttpMethod.GET,"/api/users/users/find/all").hasRole("USER")
+		.antMatchers(HttpMethod.GET,"/api/users/users/find/usr/{email}").hasRole("USER")
+		.antMatchers(HttpMethod.DELETE,"/api/users/users/delete/usr/{email}").hasRole("ADMIN")
+		.antMatchers(HttpMethod.POST,"/api/users/users/save/usr").hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST,"/api/ida/file/uploadFile").hasRole("USER")
 		.anyRequest().authenticated();
 		
