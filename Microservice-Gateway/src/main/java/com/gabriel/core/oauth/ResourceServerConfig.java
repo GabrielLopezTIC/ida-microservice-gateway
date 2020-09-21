@@ -22,16 +22,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.cors()
+		http.cors() 
 		.and()
 		.authorizeRequests()
 		.antMatchers(HttpMethod.POST,"/api/security/oauth/token").permitAll()
-		.antMatchers(HttpMethod.GET,"/api/users/users/find/all").hasRole("USER")
-		.antMatchers(HttpMethod.GET,"/api/users/users/find/usr/{email}").hasRole("USER")
+		.antMatchers(HttpMethod.GET,"/api/users/users/find/all").hasAnyRole("ADMIN","USER")
+		.antMatchers(HttpMethod.GET,"/api/users/users/find/usr/{email}").hasAnyRole("ADMIN","USER")
 		.antMatchers(HttpMethod.DELETE,"/api/users/users/delete/usr/{email}").hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST,"/api/users/users/save/usr").hasRole("ADMIN")
-		.antMatchers(HttpMethod.POST,"/api/ida/file/uploadFile").hasRole("USER")
-		.anyRequest().authenticated();
+		
+		.antMatchers(HttpMethod.POST,"/api/ida/file/uploadAndProcessImg").hasAnyRole("USER","ADMIN")		
+		.antMatchers(HttpMethod.POST,"/api/ida/file/uploadAndProcessDispersos").hasAnyRole("USER","ADMIN")
+		.antMatchers("/api/ida/file/zip").hasAnyRole("USER","ADMIN")
+		
+
+		
+		
+		.anyRequest().authenticated(); 
 		
 	}
 
